@@ -1,4 +1,4 @@
-package com.saraebadi.quizcodingcompose.presentation.main_menu
+package com.saraebadi.quizcodingcompose.presentation.dashboard
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
