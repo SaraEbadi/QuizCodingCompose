@@ -11,6 +11,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.saraebadi.quizcodingcompose.presentation.dashboard.dashboardScreen
+import com.saraebadi.quizcodingcompose.presentation.quiz.navigateToQuizScreen
 import com.saraebadi.quizcodingcompose.ui.theme.QuizCodingComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,30 +23,40 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            QuizCodingComposeTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+            QuizCodingApp()
+//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+//                    Greeting(
+//                        name = "Android",
+//                        modifier = Modifier.padding(innerPadding)
+//                    )
+//                }
         }
     }
+
+
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun QuizCodingApp() {
+    QuizCodingComposeTheme {
+        val navController = rememberNavController()
+
+        NavHost(
+            navController,
+            startDestination = "Mian",
+        ) {
+            dashboardScreen(onStartClick = {
+                navController.navigateToQuizScreen()
+            })
+
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     QuizCodingComposeTheme {
-        Greeting("Android")
+
     }
 }
