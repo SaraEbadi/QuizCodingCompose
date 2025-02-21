@@ -26,7 +26,7 @@ import com.saraebadi.quizcodingcompose.ui.theme.LightBlue
 
 
 @Composable
-fun MainScreen(
+fun DashboardScreen(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -82,5 +82,5 @@ fun MainScreen(
 @Preview
 @Composable
 private fun MainScreenPreview() {
-    MainScreen()
+    DashboardScreen()
 }
