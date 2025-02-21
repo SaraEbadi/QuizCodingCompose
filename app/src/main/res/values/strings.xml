@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">QuizCodingCompose</string>
+    <string name="check_24">Check24</string>
+    <string name="quiz">Das Quiz</string>
+    <string name="high_score">High Score</string>
+    <string name="Score">%1$d score</string>
+    <string name="start">START</string>
 </resources>
