@@ -1,4 +1,4 @@
-package com.saraebadi.quizcodingcompose.presentation
+package com.saraebadi.quizcodingcompose
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
