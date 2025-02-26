@@ -14,14 +14,5 @@ data object DashboardRoute
 fun NavGraphBuilder.dashboardScreen(
     navigateToQuizScreen: (QuizRoute) -> Unit,
     ) {
-    composable<DashboardRoute> {
-        val viewModel: DashboardViewModel = hiltViewModel()
-        val state by viewModel.uiState.collectAsStateWithLifecycle()
-        DashboardScreen(
-            state = state,
-            effects = viewModel.effects,
-            navigateToQuizScreen = navigateToQuizScreen,
-            dashboardActions = viewModel
-        )
-    }
+
 }
