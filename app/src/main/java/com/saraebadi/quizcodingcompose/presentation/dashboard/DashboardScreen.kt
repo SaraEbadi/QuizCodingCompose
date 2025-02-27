@@ -27,6 +27,7 @@ import com.saraebadi.quizcodingcompose.presentation.util.ObserveAsEffects
 import com.saraebadi.quizcodingcompose.ui.theme.DarkBlue
 import com.saraebadi.quizcodingcompose.ui.theme.LightBlue
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 
 @Composable
@@ -40,7 +41,7 @@ fun DashboardScreen(
     val context = LocalContext.current
     ObserveAsEffects(effects = effects) { effect ->
         when(effect) {
-            is DashboardEffects.GoToQuizScreen -> navigateToQuizScreen(effects.route)
+            is DashboardEffects.GoToQuizScreen -> navigateToQuizScreen(effect.route)
         }
     }
     Column(
@@ -86,7 +87,7 @@ fun DashboardScreen(
                     fontSize = 14.sp)
             },
             onClick = {
-
+                dashboardActions.onStartClick()
             }
         )
 
@@ -96,5 +97,14 @@ fun DashboardScreen(
 @Preview
 @Composable
 private fun MainScreenPreview() {
-    DashboardScreen()
+    DashboardScreen(
+        state = DashboardUiState(),
+        effects = emptyFlow(),
+        dashboardActions = previewDashboardAction,
+        navigateToQuizScreen = {}
+    )
+}
+
+val previewDashboardAction = object : DashboardActions {
+    override fun onStartClick() {}
 }

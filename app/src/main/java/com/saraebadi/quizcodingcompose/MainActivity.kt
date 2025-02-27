@@ -43,7 +43,7 @@ fun QuizCodingApp() {
             navController,
             startDestination = DashboardRoute,
         ) {
-            dashboardScreen(onStartClick = {
+            dashboardScreen(navigateToQuizScreen = {
                 navController.navigateToQuizScreen()
             })
 
