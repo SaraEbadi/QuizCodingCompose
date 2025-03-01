@@ -1,5 +1,6 @@
 package com.saraebadi.quizcodingcompose.data.di
 
+import com.saraebadi.quizcodingcompose.data.apiservice.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,5 +50,8 @@ internal object ApiModule {
             .build()
     }
 
-
+    @Provides
+    fun provideApiService(retrofit: Retrofit): ApiService {
+        return retrofit.create(ApiService::class.java)
+    }
 }
