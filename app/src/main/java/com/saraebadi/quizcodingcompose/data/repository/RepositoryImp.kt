@@ -8,7 +8,7 @@ import javax.inject.Inject
 class RepositoryImp @Inject constructor(
     private val apiDataSource: ApiDataSource
 ): Repository {
-    override suspend fun getQuiz(): QuizDto {
+    override suspend fun getQuizList(): QuizDto {
         return apiDataSource.getQuiz()
     }
 }
