@@ -1,6 +1,6 @@
 package com.saraebadi.quizcodingcompose.data.datasource
 
-import com.saraebadi.quizcodingcompose.data.apiservice.ApiService
+import com.saraebadi.quizcodingcompose.data.network.ApiService
 import com.saraebadi.quizcodingcompose.data.model.QuizDto
 import javax.inject.Inject
 

@@ -1,5 +1,7 @@
 package com.saraebadi.quizcodingcompose.presentation.quiz
 
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptionsBuilder
@@ -10,6 +12,7 @@ import kotlinx.serialization.Serializable
 data object QuizRoute
 
 fun NavGraphBuilder.quizScreen() {
+    val viewModel: QuizViewModel = hiltViewModel()
     composable<QuizRoute> {
         QuizScreen()
     }

@@ -1,6 +1,6 @@
 package com.saraebadi.quizcodingcompose.data.di
 
-import com.saraebadi.quizcodingcompose.data.apiservice.ApiService
+import com.saraebadi.quizcodingcompose.data.network.ApiService
 import com.saraebadi.quizcodingcompose.data.datasource.ApiDataSource
 import com.saraebadi.quizcodingcompose.data.datasource.ApiDataSourceImp
 import com.saraebadi.quizcodingcompose.data.repository.RepositoryImp

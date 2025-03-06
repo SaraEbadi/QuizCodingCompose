@@ -1,4 +1,4 @@
-package com.saraebadi.quizcodingcompose.data.apiservice
+package com.saraebadi.quizcodingcompose.data.network
 
 import com.saraebadi.quizcodingcompose.data.model.QuizDto
 import retrofit2.http.GET
