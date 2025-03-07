@@ -2,6 +2,7 @@ package com.saraebadi.quizcodingcompose.presentation.quiz
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,15 +28,19 @@ import com.saraebadi.quizcodingcompose.ui.theme.DarkBlue
 import com.saraebadi.quizcodingcompose.ui.theme.QuizCodingComposeTheme
 
 @Composable
-fun QuizScreen(modifier: Modifier = Modifier) {
+fun QuizScreen(
+    uiState: QuizListUiState,
+    modifier: Modifier = Modifier) {
     val lists = listOf(1,2,3,4)
     Column(modifier = modifier.background(DarkBlue).fillMaxSize()) {
         Spacer(Modifier.height(40.dp))
-        Row(Modifier.fillMaxWidth().background(Color.White)) {
+        Row(modifier = Modifier.fillMaxWidth().background(Color.White),
+            horizontalArrangement = Arrangement.Center
+            ) {
             Text(
                 text = "Frage 2/3",
                 fontSize = 14.sp,
-                color = DarkBlue
+                color = DarkBlue,
             )
         }
         Spacer(Modifier.height(40.dp))
@@ -71,6 +76,6 @@ fun QuizScreen(modifier: Modifier = Modifier) {
 @Composable
 private fun QuizScreenPreview() {
     QuizCodingComposeTheme {
-        QuizScreen()
+        QuizScreen(QuizListUiState())
     }
 }
