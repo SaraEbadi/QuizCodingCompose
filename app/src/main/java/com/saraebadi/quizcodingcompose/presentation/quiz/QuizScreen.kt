@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -29,9 +30,9 @@ import com.saraebadi.quizcodingcompose.ui.theme.QuizCodingComposeTheme
 
 @Composable
 fun QuizScreen(
-    uiState: QuizListUiState,
+    state: QuizListUiState,
+    actions: QuizActions,
     modifier: Modifier = Modifier) {
-    val lists = listOf(1,2,3,4)
     Column(modifier = modifier.background(DarkBlue).fillMaxSize()) {
         Spacer(Modifier.height(40.dp))
         Row(modifier = Modifier.fillMaxWidth().background(Color.White),
@@ -57,16 +58,25 @@ fun QuizScreen(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "score of this Q", color = Color.Green)
+                Text(text = state.quiz?.score.toString(), color = Color.Green)
                 Image(painter = painterResource(R.drawable.ic_launcher_background), contentDescription = "")
                 Spacer(Modifier.height(16.dp))
-                Text(text = "question")
+                Text(text = state.quiz?.question ?: "")
             }
         }
 
-        LazyColumn {
-            items(lists.size, key = { item -> item}) {
-
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            itemsIndexed(items = state.quiz?.answers?.entries?.toList() ?: emptyList(), key = null) { index, entry ->
+                Card(modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(8.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    )
+                ) {
+                    Text(text = entry.value)
+                }
             }
         }
     }
@@ -76,6 +86,17 @@ fun QuizScreen(
 @Composable
 private fun QuizScreenPreview() {
     QuizCodingComposeTheme {
-        QuizScreen(QuizListUiState())
+        QuizScreen(
+            state = QuizListUiState(),
+            actions = quizActionsPreview)
     }
+}
+
+interface QuizActions {
+    fun onNextQuiz()
+}
+
+val quizActionsPreview = object : QuizActions {
+    override fun onNextQuiz() {}
+
 }

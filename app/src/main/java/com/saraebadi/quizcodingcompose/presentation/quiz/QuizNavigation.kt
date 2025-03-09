@@ -16,7 +16,10 @@ fun NavGraphBuilder.quizScreen() {
     composable<QuizRoute> {
         val viewModel: QuizViewModel = hiltViewModel()
         val state by viewModel.uiState.collectAsState()
-        QuizScreen(uiState = state)
+        QuizScreen(
+            state = state,
+            actions = viewModel
+            )
     }
 }
 

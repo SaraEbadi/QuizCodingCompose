@@ -9,7 +9,7 @@ data class Quiz(
 
 data class Question(
     val question: String,
-    val answer: Map<String, String>,
+    val answers: Map<String, String>,
     val questionImageUrl: String? = null,
     val correctAnswer: String,
     val score: Int
@@ -24,7 +24,7 @@ fun QuizDto.toQuiz() : Quiz {
 fun QuestionDto.toQuestion(): Question {
     return Question(
         question = question,
-        answer = answer,
+        answers = answer,
         questionImageUrl = questionImageUrl,
         correctAnswer = correctAnswer,
         score = score
