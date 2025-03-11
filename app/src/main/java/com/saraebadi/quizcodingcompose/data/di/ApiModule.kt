@@ -20,15 +20,23 @@ internal object ApiModule {
     private const val BASE_URL = "https://app.check24.de/"
 
     @Provides
-    @Singleton
     fun provideNetworkJson(): Json = Json {
         ignoreUnknownKeys = true
         explicitNulls = true
     }
 
     @Provides
+    fun provideInterceptor(): Interceptor = Interceptor { chain ->
+        val originalRequest = chain.request()
+        val newRequest = originalRequest.newBuilder()
+            .addHeader("content-type", "application/json")
+            .build()
+        chain.proceed(newRequest)
+    }
+
+    @Provides
     fun provideOkhttpClient(
-        headerInterceptor: Interceptor
+        headerInterceptor: Interceptor,
     ):OkHttpClient {
         return OkHttpClient.Builder().apply {
             addInterceptor(headerInterceptor)
