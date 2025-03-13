@@ -17,7 +17,7 @@ class QuizViewModel @Inject constructor(
     private val getQuizListUseCase: GetQuizListUseCase
 ): ViewModel(), QuizActions {
 
-    private var _uiState = MutableStateFlow(QuizListUiState())
+    private val _uiState = MutableStateFlow(QuizListUiState())
     val uiState = _uiState.asStateFlow()
 
     val questions  =  MutableStateFlow<List<Question>>(mutableListOf())
@@ -30,8 +30,10 @@ class QuizViewModel @Inject constructor(
         _uiState.update { state -> state.copy(isLoading = true)}
         viewModelScope.launch {
             try {
+                val questions = getQuizListUseCase().questions.shuffled()
                 _uiState.update { state -> state.copy(isLoading = false,
-                    quiz = getQuizListUseCase().questions.shuffled().toMutableList().first()
+                    quiz = questions.first(),
+                    questions = questions
                 )}
 //                questions.update {
 //                    getQuizListUseCase().questions.shuffled().toMutableList()
@@ -44,6 +46,11 @@ class QuizViewModel @Inject constructor(
     }
 
     override fun onNextQuiz() {
-
+        _uiState.update { state ->
+            state.copy(
+                quiz = state.questions[state.questionIndex],
+                questionIndex = state.questionIndex+1
+            )
+        }
     }
 }

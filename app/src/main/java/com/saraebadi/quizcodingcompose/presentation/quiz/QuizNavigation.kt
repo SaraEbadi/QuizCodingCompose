@@ -19,7 +19,7 @@ fun NavGraphBuilder.quizScreen() {
         QuizScreen(
             state = state,
             actions = viewModel
-            )
+        )
     }
 }
 
