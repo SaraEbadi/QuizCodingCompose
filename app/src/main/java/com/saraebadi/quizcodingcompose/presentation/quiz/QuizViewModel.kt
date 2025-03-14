@@ -6,8 +6,11 @@ import com.saraebadi.quizcodingcompose.domin.models.Question
 import com.saraebadi.quizcodingcompose.domin.usecases.GetQuizListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +21,13 @@ class QuizViewModel @Inject constructor(
 ): ViewModel(), QuizActions {
 
     private val _uiState = MutableStateFlow(QuizListUiState())
-    val uiState = _uiState.asStateFlow()
+    val uiState = _uiState.onStart {
+        getQuizList()
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        QuizListUiState()
+    )
 
     val questions  =  MutableStateFlow<List<Question>>(mutableListOf())
     val _questions = questions.onEach {
