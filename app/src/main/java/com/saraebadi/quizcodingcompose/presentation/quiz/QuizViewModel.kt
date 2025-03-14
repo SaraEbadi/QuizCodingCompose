@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.saraebadi.quizcodingcompose.domin.models.Question
 import com.saraebadi.quizcodingcompose.domin.usecases.GetQuizListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -54,12 +55,18 @@ class QuizViewModel @Inject constructor(
         }
     }
 
-    override fun onNextQuiz() {
-        _uiState.update { state ->
-            state.copy(
-                quiz = state.questions[state.questionIndex],
-                questionIndex = state.questionIndex+1
-            )
+    override fun onAnswerClicked() {
+        _uiState.update { state -> state.copy(isAnswered = true) }
+        viewModelScope.launch {
+            delay(2000)
+            _uiState.update { state ->
+                state.copy(
+                    quiz = state.questions[state.questionIndex + 1],
+                    questionIndex = state.questionIndex + 1,
+                    isAnswered = false
+                )
+            }
         }
+
     }
 }

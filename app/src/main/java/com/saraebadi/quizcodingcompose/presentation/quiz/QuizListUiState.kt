@@ -6,5 +6,6 @@ data class QuizListUiState(
     val questions: List<Question> = emptyList(),
     val quiz: Question ?= null,
     val questionIndex: Int = 0,
-    val isLoading: Boolean = false
+    val isLoading: Boolean = false,
+    val isAnswered: Boolean = false
 )

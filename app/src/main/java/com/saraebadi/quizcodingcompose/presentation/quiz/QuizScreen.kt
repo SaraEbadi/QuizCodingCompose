@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -21,11 +23,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.saraebadi.quizcodingcompose.R
 import com.saraebadi.quizcodingcompose.ui.theme.DarkBlue
+import com.saraebadi.quizcodingcompose.ui.theme.Gray100
 import com.saraebadi.quizcodingcompose.ui.theme.QuizCodingComposeTheme
 
 @Composable
@@ -65,7 +70,11 @@ fun QuizScreen(
                 Spacer(Modifier.height(16.dp))
                 Text(
                     text = state.quiz?.question ?: "",
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    color = Gray100,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    textAlign = TextAlign.Center
                 )
             }
         }
@@ -76,19 +85,20 @@ fun QuizScreen(
                 .padding(horizontal = 24.dp)
         ) {
             itemsIndexed(items = state.quiz?.answers?.entries?.toList() ?: emptyList(), key = null) { index, entry ->
-                Spacer(Modifier.height(16.dp))
-                Card(modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(8.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White
-                    ),
-                ) {
-                    Text(modifier = Modifier
-                        .padding(vertical = 8.dp)
+                Spacer(Modifier.height(8.dp))
+                    Button(modifier = Modifier
+                        .fillMaxWidth()
                         .align(Alignment.CenterHorizontally),
-                        text = entry.value
-                    )
-                }
+                        shape = RoundedCornerShape(8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White,
+                            disabledContainerColor = Color(0xFFEAF2FF)),
+                        onClick = actions::onAnswerClicked,
+                        enabled = !state.isAnswered
+                    ) {
+                        Text(text = entry.value, color = Gray100, fontWeight = FontWeight.Bold)
+                    }
+
             }
         }
     }
@@ -105,10 +115,10 @@ private fun QuizScreenPreview() {
 }
 
 interface QuizActions {
-    fun onNextQuiz()
+    fun onAnswerClicked()
 }
 
 val quizActionsPreview = object : QuizActions {
-    override fun onNextQuiz() {}
+    override fun onAnswerClicked() {}
 
 }
