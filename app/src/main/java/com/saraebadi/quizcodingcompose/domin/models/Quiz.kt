@@ -24,7 +24,7 @@ fun QuizDto.toQuiz() : Quiz {
 fun QuestionDto.toQuestion(): Question {
     return Question(
         question = question,
-        answers = answer,
+        answers = answers,
         questionImageUrl = questionImageUrl,
         correctAnswer = correctAnswer,
         score = score

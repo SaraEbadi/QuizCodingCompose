@@ -10,7 +10,7 @@ data class QuizDto(
 @Serializable
 data class QuestionDto(
     val question: String,
-    val answer: Map<String, String>,
+    val answers: Map<String, String>,
     val questionImageUrl: String? = null,
     val correctAnswer: String,
     val score: Int
