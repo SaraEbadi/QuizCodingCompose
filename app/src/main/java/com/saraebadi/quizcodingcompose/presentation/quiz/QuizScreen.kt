@@ -35,12 +35,14 @@ fun QuizScreen(
     modifier: Modifier = Modifier) {
     Column(modifier = modifier.background(DarkBlue).fillMaxSize()) {
         Spacer(Modifier.height(40.dp))
-        Row(modifier = Modifier.fillMaxWidth().background(Color.White),
-            horizontalArrangement = Arrangement.Center
-            ) {
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White)
+            .padding(vertical = 4.dp),
+            horizontalArrangement = Arrangement.Center) {
             Text(
                 text = "Frage 2/3",
-                fontSize = 14.sp,
+                fontSize = 16.sp,
                 color = DarkBlue,
             )
         }
@@ -55,27 +57,37 @@ fun QuizScreen(
             )
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 24.dp),
+                modifier = Modifier.fillMaxWidth().padding(vertical = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = state.quiz?.score.toString(), color = Color.Green)
+                Text(text = "${state.quiz?.score.toString()} Punkte", color = Color.Green)
                 Image(painter = painterResource(R.drawable.ic_launcher_background), contentDescription = "")
                 Spacer(Modifier.height(16.dp))
-                Text(text = state.quiz?.question ?: "")
+                Text(
+                    text = state.quiz?.question ?: "",
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
             }
         }
-
+        Spacer(modifier = Modifier.height(24.dp))
         LazyColumn(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp)
         ) {
             itemsIndexed(items = state.quiz?.answers?.entries?.toList() ?: emptyList(), key = null) { index, entry ->
+                Spacer(Modifier.height(16.dp))
                 Card(modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(8.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = Color.White
-                    )
+                    ),
                 ) {
-                    Text(text = entry.value)
+                    Text(modifier = Modifier
+                        .padding(vertical = 8.dp)
+                        .align(Alignment.CenterHorizontally),
+                        text = entry.value
+                    )
                 }
             }
         }
