@@ -1,5 +1,6 @@
 package com.saraebadi.quizcodingcompose.presentation.quiz
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,7 +39,9 @@ fun QuizScreen(
     state: QuizListUiState,
     actions: QuizActions,
     modifier: Modifier = Modifier) {
-    Column(modifier = modifier.background(DarkBlue).fillMaxSize()) {
+    Column(modifier = modifier
+        .background(DarkBlue)
+        .fillMaxSize()) {
         Spacer(Modifier.height(40.dp))
         Row(modifier = Modifier
             .fillMaxWidth()
@@ -62,7 +65,9 @@ fun QuizScreen(
             )
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 32.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(text = "${state.quiz?.score.toString()} Punkte", color = Color.Green)
@@ -72,7 +77,8 @@ fun QuizScreen(
                     text = state.quiz?.question ?: "",
                     color = Gray100,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(horizontal = 16.dp),
                     textAlign = TextAlign.Center
                 )
@@ -90,10 +96,21 @@ fun QuizScreen(
                         .fillMaxWidth()
                         .align(Alignment.CenterHorizontally),
                         shape = RoundedCornerShape(8.dp),
-                        colors = ButtonDefaults.buttonColors(
+                        colors = state.isCorrect?.let {
+                            Log.d("AnswerTAG", "cScreen Color${state.isCorrect}")
+                            if (it) {
+                                ButtonDefaults.buttonColors(
+                                    containerColor = Color.Green,
+                                    disabledContainerColor = Color(0xFFEAF2FF))
+                            } else {
+                                ButtonDefaults.buttonColors(
+                                    containerColor = Color.Red,
+                                    disabledContainerColor = Color(0xFFEAF2FF))
+                            }
+                        }?: ButtonDefaults.buttonColors(
                             containerColor = Color.White,
                             disabledContainerColor = Color(0xFFEAF2FF)),
-                        onClick = actions::onAnswerClicked,
+                        onClick = { actions.onAnswerClicked(entry.key) },
                         enabled = !state.isAnswered
                     ) {
                         Text(text = entry.value, color = Gray100, fontWeight = FontWeight.Bold)
@@ -115,10 +132,10 @@ private fun QuizScreenPreview() {
 }
 
 interface QuizActions {
-    fun onAnswerClicked()
+    fun onAnswerClicked(answerKey: String)
 }
 
 val quizActionsPreview = object : QuizActions {
-    override fun onAnswerClicked() {}
+    override fun onAnswerClicked(answerKey: String) {}
 
 }
