@@ -1,5 +1,6 @@
 package com.saraebadi.quizcodingcompose.presentation.quiz
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.saraebadi.quizcodingcompose.domin.models.Question
@@ -67,19 +68,35 @@ class QuizViewModel @Inject constructor(
         }
     }
 
-    override fun onAnswerClicked() {
-        _uiState.update { state -> state.copy(isAnswered = true) }
+    override fun onAnswerClicked(answerKey: String) {
         viewModelScope.launch {
+//            _uiState.update { state ->
+//                Log.d("AnswerTAG", "checkAnswer: $answerKey")
+//                state.copy(isAnswered = true, isCorrect = )
+//            }
+            _uiState.update { state ->
+                state.copy(isAnswered = true)
+            }
+            _uiState.update { state ->
+                state.copy(isCorrect = checkAnswer(answerKey))
+            }
+
             delay(2000)
+            Log.d("AnswerTAG", "delay")
             _uiState.update { state ->
                 state.copy(
                     quiz = state.questions[state.questionIndex + 1],
                     questionIndex = state.questionIndex + 1,
-                    isAnswered = false
+                    isAnswered = false,
+                    isCorrect = null
                 )
             }
         }
 
+    }
+
+    private fun checkAnswer(answerKey: String): Boolean{
+       return _uiState.value.questions[_uiState.value.questionIndex].correctAnswer == answerKey
     }
 }
 
