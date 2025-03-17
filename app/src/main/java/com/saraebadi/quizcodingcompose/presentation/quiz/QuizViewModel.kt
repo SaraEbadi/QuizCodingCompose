@@ -6,27 +6,14 @@ import androidx.lifecycle.viewModelScope
 import com.saraebadi.quizcodingcompose.domin.models.Question
 import com.saraebadi.quizcodingcompose.domin.usecases.GetQuizListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -68,7 +55,7 @@ class QuizViewModel @Inject constructor(
         }
     }
 
-    override fun onAnswerClicked(answerKey: String) {
+    override fun onAnswerClicked(answerKey: Map.Entry<String, String>) {
         viewModelScope.launch {
 //            _uiState.update { state ->
 //                Log.d("AnswerTAG", "checkAnswer: $answerKey")
@@ -78,7 +65,7 @@ class QuizViewModel @Inject constructor(
                 state.copy(isAnswered = true)
             }
             _uiState.update { state ->
-                state.copy(isCorrect = checkAnswer(answerKey))
+                state.copy(userAnswerKey = answerKey.key)
             }
 
             delay(2000)
@@ -88,15 +75,15 @@ class QuizViewModel @Inject constructor(
                     quiz = state.questions[state.questionIndex + 1],
                     questionIndex = state.questionIndex + 1,
                     isAnswered = false,
-                    isCorrect = null
+                    userAnswerKey = null
                 )
             }
         }
 
     }
 
-    private fun checkAnswer(answerKey: String): Boolean{
-       return _uiState.value.questions[_uiState.value.questionIndex].correctAnswer == answerKey
+    private fun checkAnswer(answerKey: Map.Entry<String, String>): Boolean{
+       return _uiState.value.questions[_uiState.value.questionIndex].correctAnswer == answerKey.key
     }
 }
 

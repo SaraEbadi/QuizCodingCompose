@@ -91,26 +91,30 @@ fun QuizScreen(
                 .padding(horizontal = 24.dp)
         ) {
             itemsIndexed(items = state.quiz?.answers?.entries?.toList() ?: emptyList(), key = null) { index, entry ->
+                val isCorrect = state.quiz?.correctAnswer?.contains(entry.key)
+                val selectedAnswer = state.userAnswerKey?.let {
+                    it == entry.key && state.userAnswerKey == state.quiz?.correctAnswer
+                }
                 Spacer(Modifier.height(8.dp))
                     Button(modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.CenterHorizontally),
                         shape = RoundedCornerShape(8.dp),
-                        colors = state.isCorrect?.let {
+                        colors = selectedAnswer?.let {
                             Log.d("AnswerTAG", "cScreen Color${state.isCorrect}")
                             if (it) {
                                 ButtonDefaults.buttonColors(
                                     containerColor = Color.Green,
-                                    disabledContainerColor = Color(0xFFEAF2FF))
+                                    disabledContainerColor = Color.Green)
                             } else {
                                 ButtonDefaults.buttonColors(
                                     containerColor = Color.Red,
-                                    disabledContainerColor = Color(0xFFEAF2FF))
+                                    disabledContainerColor = Color.Red)
                             }
                         }?: ButtonDefaults.buttonColors(
                             containerColor = Color.White,
                             disabledContainerColor = Color(0xFFEAF2FF)),
-                        onClick = { actions.onAnswerClicked(entry.key) },
+                        onClick = { actions.onAnswerClicked(entry) },
                         enabled = !state.isAnswered
                     ) {
                         Text(text = entry.value, color = Gray100, fontWeight = FontWeight.Bold)
@@ -132,10 +136,10 @@ private fun QuizScreenPreview() {
 }
 
 interface QuizActions {
-    fun onAnswerClicked(answerKey: String)
+    fun onAnswerClicked(answerKey: Map.Entry<String, String>)
 }
 
 val quizActionsPreview = object : QuizActions {
-    override fun onAnswerClicked(answerKey: String) {}
+    override fun onAnswerClicked(answerKey: Map.Entry<String, String>) {}
 
 }

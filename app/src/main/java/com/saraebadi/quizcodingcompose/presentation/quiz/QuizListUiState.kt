@@ -8,5 +8,6 @@ data class QuizListUiState(
     val questionIndex: Int = 0,
     val isLoading: Boolean = false,
     val isAnswered: Boolean = false,
-    val isCorrect: Boolean ?= null
+    val isCorrect: Boolean ?= null,
+    val userAnswerKey: String?=  null
 )
