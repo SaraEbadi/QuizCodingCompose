@@ -99,21 +99,6 @@ fun QuizScreen(
                     state.isAnswered && isCorrect -> Color.Green
                     else -> Color.White
                 }
-                val selectedAnswer = if (state.userAnswerKey != null && state.userAnswerKey == entry.key) {
-                    if (state.userAnswerKey == state.quiz?.correctAnswer) {
-                        ButtonDefaults.buttonColors(
-                            containerColor = Color.Green,
-                            disabledContainerColor = Color.Green)
-                    } else {
-                        ButtonDefaults.buttonColors(
-                            containerColor = Color.Red,
-                            disabledContainerColor = Color.Red)
-                    }
-                } else {
-                    ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        disabledContainerColor = Color(0xFFEAF2FF))
-                }
                 Spacer(Modifier.height(8.dp))
                     Button(modifier = Modifier
                         .fillMaxWidth()
