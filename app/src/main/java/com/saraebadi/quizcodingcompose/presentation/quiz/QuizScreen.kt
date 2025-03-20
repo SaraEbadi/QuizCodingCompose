@@ -1,6 +1,5 @@
 package com.saraebadi.quizcodingcompose.presentation.quiz
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -91,29 +90,33 @@ fun QuizScreen(
                 .padding(horizontal = 24.dp)
         ) {
             itemsIndexed(items = state.quiz?.answers?.entries?.toList() ?: emptyList(), key = null) { index, entry ->
-                val isCorrect = state.quiz?.correctAnswer?.contains(entry.key)
-                val selectedAnswer = state.userAnswerKey?.let {
-                    it == entry.key && state.userAnswerKey == state.quiz?.correctAnswer
+//                val isCorrect = state.quiz?.correctAnswer?.contains(entry.key)
+//                val selectedAnswer = state.userAnswerKey?.let { it == entry.key }
+//                val checkAnswerCorrectness = selectedAnswer.takeIf { it == true }?.let {
+//                    state.userAnswerKey == state.quiz?.correctAnswer
+//                }
+
+                val selectedAnswer = if (state.userAnswerKey != null && state.userAnswerKey == entry.key){
+                    if (state.userAnswerKey == state.quiz?.correctAnswer) {
+                        ButtonDefaults.buttonColors(
+                            containerColor = Color.Green,
+                            disabledContainerColor = Color.Green)
+                    } else {
+                        ButtonDefaults.buttonColors(
+                            containerColor = Color.Red,
+                            disabledContainerColor = Color.Red)
+                    }
+                } else {
+                    ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        disabledContainerColor = Color(0xFFEAF2FF))
                 }
                 Spacer(Modifier.height(8.dp))
                     Button(modifier = Modifier
                         .fillMaxWidth()
                         .align(Alignment.CenterHorizontally),
                         shape = RoundedCornerShape(8.dp),
-                        colors = selectedAnswer?.let {
-                            Log.d("AnswerTAG", "cScreen Color${state.isCorrect}")
-                            if (it) {
-                                ButtonDefaults.buttonColors(
-                                    containerColor = Color.Green,
-                                    disabledContainerColor = Color.Green)
-                            } else {
-                                ButtonDefaults.buttonColors(
-                                    containerColor = Color.Red,
-                                    disabledContainerColor = Color.Red)
-                            }
-                        }?: ButtonDefaults.buttonColors(
-                            containerColor = Color.White,
-                            disabledContainerColor = Color(0xFFEAF2FF)),
+                        colors = selectedAnswer,
                         onClick = { actions.onAnswerClicked(entry) },
                         enabled = !state.isAnswered
                     ) {
