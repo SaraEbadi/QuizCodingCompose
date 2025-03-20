@@ -52,7 +52,7 @@ fun DashboardScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = stringResource(R.string.check_24),
+            text = stringResource(R.string.welcome),
             fontSize = 72.sp,
             color = Color.White
         )
