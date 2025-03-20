@@ -90,13 +90,16 @@ fun QuizScreen(
                 .padding(horizontal = 24.dp)
         ) {
             itemsIndexed(items = state.quiz?.answers?.entries?.toList() ?: emptyList(), key = null) { index, entry ->
-//                val isCorrect = state.quiz?.correctAnswer?.contains(entry.key)
-//                val selectedAnswer = state.userAnswerKey?.let { it == entry.key }
-//                val checkAnswerCorrectness = selectedAnswer.takeIf { it == true }?.let {
-//                    state.userAnswerKey == state.quiz?.correctAnswer
-//                }
-
-                val selectedAnswer = if (state.userAnswerKey != null && state.userAnswerKey == entry.key){
+                val isCorrect = state.userAnswerKey == state.quiz?.correctAnswer
+                val color = when {
+                    state.userAnswerKey == null -> Color.White
+                    state.isAnswered && !isCorrect && entry.key == state.quiz?.correctAnswer-> Color.Green
+                    state.userAnswerKey != entry.key -> Color.White
+                    state.isAnswered && !isCorrect -> Color.Red
+                    state.isAnswered && isCorrect -> Color.Green
+                    else -> Color.White
+                }
+                val selectedAnswer = if (state.userAnswerKey != null && state.userAnswerKey == entry.key) {
                     if (state.userAnswerKey == state.quiz?.correctAnswer) {
                         ButtonDefaults.buttonColors(
                             containerColor = Color.Green,
@@ -116,7 +119,9 @@ fun QuizScreen(
                         .fillMaxWidth()
                         .align(Alignment.CenterHorizontally),
                         shape = RoundedCornerShape(8.dp),
-                        colors = selectedAnswer,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = color,
+                            disabledContainerColor = color),
                         onClick = { actions.onAnswerClicked(entry) },
                         enabled = !state.isAnswered
                     ) {

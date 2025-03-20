@@ -61,11 +61,11 @@ class QuizViewModel @Inject constructor(
 //                Log.d("AnswerTAG", "checkAnswer: $answerKey")
 //                state.copy(isAnswered = true, isCorrect = )
 //            }
+//            _uiState.update { state ->
+//                state.copy(isAnswered = true)
+//            }
             _uiState.update { state ->
-                state.copy(isAnswered = true)
-            }
-            _uiState.update { state ->
-                state.copy(userAnswerKey = answerKey.key)
+                state.copy(userAnswerKey = answerKey.key, isAnswered = true)
             }
 
             delay(2000)
