@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.saraebadi.quizcodingcompose.presentation.components.LoadingView
 import com.saraebadi.quizcodingcompose.ui.theme.DarkBlue
 import com.saraebadi.quizcodingcompose.ui.theme.Gray100
 import com.saraebadi.quizcodingcompose.ui.theme.QuizCodingComposeTheme
@@ -38,6 +39,9 @@ fun QuizScreen(
     state: QuizListUiState,
     actions: QuizActions,
     modifier: Modifier = Modifier) {
+
+    if (state.isLoading) LoadingView()
+
     Column(modifier = modifier
         .background(DarkBlue)
         .fillMaxSize()) {

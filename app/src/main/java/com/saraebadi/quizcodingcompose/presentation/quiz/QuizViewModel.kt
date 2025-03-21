@@ -41,7 +41,8 @@ class QuizViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val questions = getQuizListUseCase().questions.shuffled()
-                _uiState.update { state -> state.copy(isLoading = false,
+                _uiState.update { state -> state.copy(
+                    isLoading = false,
                     quiz = questions.first(),
                     questions = questions
                 )}
