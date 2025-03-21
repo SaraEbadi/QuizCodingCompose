@@ -57,13 +57,6 @@ class QuizViewModel @Inject constructor(
 
     override fun onAnswerClicked(answerKey: Map.Entry<String, String>) {
         viewModelScope.launch {
-//            _uiState.update { state ->
-//                Log.d("AnswerTAG", "checkAnswer: $answerKey")
-//                state.copy(isAnswered = true, isCorrect = )
-//            }
-//            _uiState.update { state ->
-//                state.copy(isAnswered = true)
-//            }
             _uiState.update { state ->
                 state.copy(userAnswerKey = answerKey.key, isAnswered = true)
             }
@@ -80,10 +73,6 @@ class QuizViewModel @Inject constructor(
             }
         }
 
-    }
-
-    private fun checkAnswer(answerKey: Map.Entry<String, String>): Boolean{
-       return _uiState.value.questions[_uiState.value.questionIndex].correctAnswer == answerKey.key
     }
 }
 
