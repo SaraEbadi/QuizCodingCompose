@@ -32,6 +32,7 @@ import coil3.compose.AsyncImage
 import com.saraebadi.quizcodingcompose.presentation.components.LoadingView
 import com.saraebadi.quizcodingcompose.ui.theme.DarkBlue
 import com.saraebadi.quizcodingcompose.ui.theme.Gray100
+import com.saraebadi.quizcodingcompose.ui.theme.Green100
 import com.saraebadi.quizcodingcompose.ui.theme.QuizCodingComposeTheme
 
 @Composable
@@ -52,7 +53,7 @@ fun QuizScreen(
             .padding(vertical = 4.dp),
             horizontalArrangement = Arrangement.Center) {
             Text(
-                text = "Frage 2/3",
+                text = "Question ${state.questionIndex + 1}/${state.questions.size - 1}",
                 fontSize = 16.sp,
                 color = DarkBlue,
             )
@@ -73,7 +74,7 @@ fun QuizScreen(
                     .padding(vertical = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "${state.quiz?.score.toString()} Punkte", color = Color.Green)
+                Text(text = "${state.quiz?.score.toString()} Points - Current score: ${state.userScore}", color = Green100)
                 AsyncImage(
                     model = state.quiz?.questionImageUrl,
                     contentDescription = "quiz-image",

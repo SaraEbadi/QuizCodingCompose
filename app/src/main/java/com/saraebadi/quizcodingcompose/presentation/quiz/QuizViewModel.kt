@@ -41,15 +41,13 @@ class QuizViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val questions = getQuizListUseCase().questions.shuffled()
-                _uiState.update { state -> state.copy(
-                    isLoading = false,
-                    quiz = questions.first(),
-                    questions = questions
-                )}
-//                questions.update {
-//                    getQuizListUseCase().questions.shuffled().toMutableList()
-//                }
-
+                _uiState.update { state ->
+                    state.copy(
+                        isLoading = false,
+                        quiz = questions.first(),
+                        questions = questions
+                    )
+                }
             } catch (e: Exception) {
                 _uiState.update { state -> state.copy(isLoading = false)}
             }
@@ -65,12 +63,18 @@ class QuizViewModel @Inject constructor(
             delay(2000)
             Log.d("AnswerTAG", "delay")
             _uiState.update { state ->
-                state.copy(
-                    quiz = state.questions[state.questionIndex + 1],
-                    questionIndex = state.questionIndex + 1,
-                    isAnswered = false,
-                    userAnswerKey = null
-                )
+                val isGameOver = state.questionIndex >= state.questions.size -1
+                if (isGameOver){
+                    state.copy(isGameOver = true)
+                } else {
+                    state.copy(
+                        quiz = state.questions[state.questionIndex + 1],
+                        questionIndex = state.questionIndex + 1,
+                        isAnswered = false,
+                        userAnswerKey = null,
+                        userScore = if (answerKey.key == state.quiz?.correctAnswer) state.userScore + state.quiz.score else state.userScore
+                    )
+                }
             }
         }
 
