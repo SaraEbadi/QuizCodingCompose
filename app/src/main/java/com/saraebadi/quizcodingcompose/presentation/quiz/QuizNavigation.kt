@@ -12,13 +12,15 @@ import kotlinx.serialization.Serializable
 @Serializable
 data object QuizRoute
 
-fun NavGraphBuilder.quizScreen() {
+fun NavGraphBuilder.quizScreen(goToDashboard: () -> Unit) {
     composable<QuizRoute> {
         val viewModel: QuizViewModel = hiltViewModel()
         val state by viewModel.uiState.collectAsState()
         QuizScreen(
             state = state,
-            actions = viewModel
+            actions = viewModel,
+            effects = viewModel.effects,
+            goToDashboard = goToDashboard
         )
     }
 }

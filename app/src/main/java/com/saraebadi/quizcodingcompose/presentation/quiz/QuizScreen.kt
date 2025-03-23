@@ -30,16 +30,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.saraebadi.quizcodingcompose.presentation.components.LoadingView
+import com.saraebadi.quizcodingcompose.presentation.util.ObserveAsEffects
 import com.saraebadi.quizcodingcompose.ui.theme.DarkBlue
 import com.saraebadi.quizcodingcompose.ui.theme.Gray100
 import com.saraebadi.quizcodingcompose.ui.theme.Green100
 import com.saraebadi.quizcodingcompose.ui.theme.QuizCodingComposeTheme
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun QuizScreen(
     state: QuizListUiState,
     actions: QuizActions,
+    effects: Flow<QuizEffects>,
+    goToDashboard:() -> Unit,
     modifier: Modifier = Modifier) {
+
+    ObserveAsEffects(effects = effects) { effect ->
+        when(effect) {
+            is QuizEffects.GoToDashboard -> goToDashboard()
+        }
+    }
 
     if (state.isLoading) LoadingView()
 
@@ -136,7 +147,10 @@ private fun QuizScreenPreview() {
     QuizCodingComposeTheme {
         QuizScreen(
             state = QuizListUiState(),
-            actions = quizActionsPreview)
+            actions = quizActionsPreview,
+            effects = emptyFlow(),
+            goToDashboard = {}
+        )
     }
 }
 

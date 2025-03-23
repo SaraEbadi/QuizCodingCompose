@@ -40,7 +40,9 @@ fun QuizCodingApp() {
             })
 
             quizScreen(
-
+                goToDashboard = {
+                    navController.popBackStack()
+                }
             )
         }
     }
