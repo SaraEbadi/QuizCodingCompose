@@ -6,11 +6,13 @@ import androidx.lifecycle.viewModelScope
 import com.saraebadi.quizcodingcompose.domin.models.Question
 import com.saraebadi.quizcodingcompose.domin.usecases.GetQuizListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -20,6 +22,10 @@ import javax.inject.Inject
 class QuizViewModel @Inject constructor(
     private val getQuizListUseCase: GetQuizListUseCase
 ): ViewModel(), QuizActions {
+
+
+    private val _effects = Channel<QuizEffects>()
+    val effects = _effects.receiveAsFlow()
 
     private val _uiState = MutableStateFlow(QuizListUiState())
     val uiState = _uiState.onStart {
@@ -62,11 +68,11 @@ class QuizViewModel @Inject constructor(
 
             delay(2000)
             Log.d("AnswerTAG", "delay")
-            _uiState.update { state ->
-                val isGameOver = state.questionIndex >= state.questions.size -1
-                if (isGameOver){
-                    state.copy(isGameOver = true)
-                } else {
+            val isGameOver = uiState.value.questionIndex >= uiState.value.questions.size - 1
+            if (isGameOver) {
+                _effects.send(QuizEffects.GoToDashboard)
+            } else {
+                _uiState.update { state ->
                     state.copy(
                         quiz = state.questions[state.questionIndex + 1],
                         questionIndex = state.questionIndex + 1,
@@ -77,7 +83,6 @@ class QuizViewModel @Inject constructor(
                 }
             }
         }
-
     }
 }
 
