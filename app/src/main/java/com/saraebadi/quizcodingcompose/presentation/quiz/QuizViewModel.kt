@@ -42,7 +42,7 @@ class QuizViewModel @Inject constructor(
 
     }
 
-    fun getQuizList() {
+    private fun getQuizList() {
         _uiState.update { state -> state.copy(isLoading = true)}
         viewModelScope.launch {
             try {
