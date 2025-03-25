@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">QuizCodingCompose</string>
     <string name="welcome">Welcome</string>
-    <string name="quiz">Das Quiz</string>
+    <string name="quiz">The Quiz</string>
     <string name="high_score">High Score</string>
     <string name="Score">%1$d score</string>
     <string name="start">START</string>
