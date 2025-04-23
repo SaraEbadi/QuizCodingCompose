@@ -45,6 +45,11 @@ okhttp3 = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okht
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-network-okhttp = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 
+#testing
+test-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.10.2" }
+mockito = { module = "org.mockito:mockito-core", version = "5.5.0" }
+
+
 # Dependencies of the included build-logic
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 
