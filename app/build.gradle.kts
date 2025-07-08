@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.saraebadi.quizcodingcompose"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.saraebadi.quizcodingcompose"
